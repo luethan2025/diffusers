@@ -121,6 +121,16 @@ else:
         "LTXAutoBlocks",
         "LTXModularPipeline",
     ]
+    _import_structure["ltx2"] = [
+        "LTX2AutoBlocks",
+        "LTX25AutoBlocks",
+        "LTX2ModularPipeline",
+        "LTX25ModularPipeline",
+    ]
+    _import_structure["minimax_h3"] = [
+        "MiniMaxH3Blocks",
+        "MiniMaxH3ModularPipeline",
+    ]
     _import_structure["z_image"] = [
         "ZImageAutoBlocks",
         "ZImageModularPipeline",
@@ -175,6 +185,11 @@ if TYPE_CHECKING or DIFFUSERS_SLOW_IMPORT:
             Krea2TurboModularPipeline,
         )
         from .ltx import LTXAutoBlocks, LTXModularPipeline
+        from .ltx2 import LTX2AutoBlocks, LTX2ModularPipeline, LTX25AutoBlocks, LTX25ModularPipeline
+        from .minimax_h3 import (
+            MiniMaxH3Blocks,
+            MiniMaxH3ModularPipeline,
+        )
         from .modular_pipeline import (
             AutoPipelineBlocks,
             BlockState,
