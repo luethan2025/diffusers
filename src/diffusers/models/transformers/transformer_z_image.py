@@ -594,6 +594,8 @@ class ZImageTransformer2DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, FromOr
         all_cap_out, all_cap_pos_ids, all_cap_pad_mask = [], [], []
 
         for image, cap_feat in zip(all_image, all_cap_feats):
+            cap_feat = cap_feat.to(device=device)
+
             # Caption
             cap_out, cap_pos_ids, cap_pad_mask, cap_len, _ = self._pad_with_ids(
                 cap_feat, (len(cap_feat) + (-len(cap_feat)) % SEQ_MULTI_OF, 1, 1), (1, 0, 0), device
@@ -649,6 +651,7 @@ class ZImageTransformer2DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, FromOr
             # Process captions
             for j, cap_item in enumerate(all_cap_feats[i]):
                 noise_val = images_noise_mask[i][j] if j < len(images_noise_mask[i]) else 1
+                cap_item = cap_item.to(device=device)
                 cap_out, cap_pos, cap_mask, cap_len, cap_nm = self._pad_with_ids(
                     cap_item,
                     (len(cap_item) + (-len(cap_item)) % SEQ_MULTI_OF, 1, 1),
@@ -710,6 +713,7 @@ class ZImageTransformer2DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, FromOr
                 for j, sig_item in enumerate(all_siglip_feats[i]):
                     noise_val = images_noise_mask[i][j]
                     if sig_item is not None:
+                        sig_item = sig_item.to(device=device)
                         sig_H, sig_W, sig_C = sig_item.size()
                         sig_flat = sig_item.permute(2, 0, 1).reshape(sig_H * sig_W, sig_C)
                         sig_out, sig_pos, sig_mask, sig_len, sig_nm = self._pad_with_ids(
